@@ -67,8 +67,8 @@ header {
     var(--r8) 87.5%, var(--r8) 100%);
 }
 .header-inner {
-  padding: 22px 36px 20px;
-  display: flex; align-items: center; justify-content: center; gap: 20px;
+  padding: 30px 48px 26px;
+  display: flex; align-items: center; justify-content: center; gap: 24px;
 }
 
 /* ONIS logotype — rendered in CSS matching brand */
@@ -79,7 +79,7 @@ header {
 }
 .onis-wordmark {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 2.2rem;
+  font-size: 3rem;
   font-weight: 400;
   color: #ffffff;
   letter-spacing: 0.04em;
@@ -102,22 +102,22 @@ header {
 .header-stack { display: flex; flex-direction: column; justify-content: center; }
 .app-name {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 0.6rem;
+  font-size: 0.75rem;
   font-weight: 700;
   color: #ffffff;
   letter-spacing: 4px;
   text-transform: uppercase;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
 }
 .app-sub {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 0.58rem;
+  font-size: 0.7rem;
   color: #ffffff;
   letter-spacing: 2.5px;
   text-transform: uppercase;
 }
 .header-rule {
-  width: 1px; height: 40px;
+  width: 1px; height: 52px;
   background: rgba(255,255,255,0.15);
   margin: 0 4px;
 }
@@ -131,10 +131,10 @@ header {
   border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 .tab {
-  padding: 11px 20px;
+  padding: 14px 28px;
   color: rgba(255,255,255,0.35);
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 0.7rem; font-weight: 700;
+  font-size: 0.8rem; font-weight: 700;
   letter-spacing: 2px; text-transform: uppercase;
   cursor: pointer;
   border-bottom: 2px solid transparent;
@@ -148,15 +148,15 @@ header {
 }
 
 /* ── MAIN CONTENT ───────────────────────────────── */
-main { max-width: 840px; margin: 0 auto; padding: 36px 28px; }
+main { max-width: 1000px; margin: 0 auto; padding: 44px 36px; }
 
 /* Section heading */
 .section-label {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 0.62rem; font-weight: 700;
+  font-size: 0.75rem; font-weight: 700;
   letter-spacing: 3px; text-transform: uppercase;
-  color: var(--muted); margin-bottom: 20px;
-  padding-bottom: 10px;
+  color: var(--muted); margin-bottom: 24px;
+  padding-bottom: 12px;
   border-bottom: 1px solid var(--border);
 }
 
@@ -164,11 +164,11 @@ main { max-width: 840px; margin: 0 auto; padding: 36px 28px; }
 .upload-row { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
 .upload-row.single .upload-box { flex: 1 1 100%; }
 .upload-box {
-  flex: 1 1 240px;
+  flex: 1 1 280px;
   background: #faf7ef;
   border: 1.5px dashed #b8a888;
   border-radius: 8px;
-  padding: 30px 20px; text-align: center; cursor: pointer;
+  padding: 40px 24px; text-align: center; cursor: pointer;
   transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
 }
 .upload-box:hover, .upload-box.drag-over {
@@ -180,15 +180,15 @@ main { max-width: 840px; margin: 0 auto; padding: 36px 28px; }
   border-color: var(--ok); border-style: solid;
   background: var(--ok-bg);
 }
-.upload-icon { font-size: 1.6rem; margin-bottom: 10px; opacity: 0.6; }
+.upload-icon { font-size: 2.2rem; margin-bottom: 12px; opacity: 0.6; }
 .upload-label {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 0.65rem; font-weight: 700;
+  font-size: 0.75rem; font-weight: 700;
   letter-spacing: 2px; text-transform: uppercase;
-  color: var(--ink); margin-bottom: 5px;
+  color: var(--ink); margin-bottom: 6px;
 }
-.upload-hint { font-size: 0.72rem; color: var(--muted); }
-.upload-filename { font-size: 0.74rem; color: var(--ok); font-weight: 700; margin-top: 6px; word-break: break-all; }
+.upload-hint { font-size: 0.82rem; color: var(--muted); }
+.upload-filename { font-size: 0.82rem; color: var(--ok); font-weight: 700; margin-top: 8px; word-break: break-all; }
 input[type=file] { display: none; }
 
 /* Embedded data badge */
@@ -201,17 +201,17 @@ input[type=file] { display: none; }
 }
 .eb-title {
   font-family: Arial, Helvetica, sans-serif;
-  font-weight: 700; color: var(--ok); font-size: 0.8rem;
+  font-weight: 700; color: var(--ok); font-size: 0.95rem;
   text-transform: uppercase; letter-spacing: 1px;
 }
-.eb-sub { font-size: 0.72rem; color: var(--muted); margin-top: 3px; }
+.eb-sub { font-size: 0.84rem; color: var(--muted); margin-top: 4px; }
 
 /* CTA Button */
 .btn {
   background: var(--dark); color: #ffffff; border: none;
-  border-radius: 4px; padding: 14px 32px;
+  border-radius: 4px; padding: 16px 40px;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 0.72rem; font-weight: 700;
+  font-size: 0.82rem; font-weight: 700;
   letter-spacing: 2.5px; text-transform: uppercase;
   cursor: pointer; transition: background 0.15s, box-shadow 0.15s;
 }
@@ -255,11 +255,11 @@ input[type=file] { display: none; }
 table { width: 100%; border-collapse: collapse; background: #ffffff; min-width: 500px; }
 thead th {
   background: var(--dark); color: rgba(255,255,255,0.75);
-  font-family: Arial, Helvetica, sans-serif; font-size: 0.62rem;
+  font-family: Arial, Helvetica, sans-serif; font-size: 0.72rem;
   letter-spacing: 2px; text-transform: uppercase;
-  padding: 12px 16px; text-align: left; font-weight: 700;
+  padding: 14px 18px; text-align: left; font-weight: 700;
 }
-td { padding: 10px 16px; font-size: 0.82rem; border-bottom: 1px solid var(--kraft2); font-variant-numeric: tabular-nums; }
+td { padding: 13px 18px; font-size: 0.9rem; border-bottom: 1px solid var(--kraft2); font-variant-numeric: tabular-nums; }
 tr:last-child td { border-bottom: none; }
 .section-row td {
   background: var(--kraft2);
