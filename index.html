@@ -4,170 +4,295 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ArtFlow — ONIS Packaging Validator</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600&display=swap">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
+/* ── ONIS BRAND TOKENS ─────────────────────────── */
 :root {
-  --bg:       #f5f0e8;
-  --bg2:      #ece6da;
-  --surface:  #faf7f2;
+  /* Kraft paper palette */
+  --kraft:    #f0e8d8;
+  --kraft2:   #e8dcc8;
+  --kraft3:   #ddd0ba;
+  --surface:  #f8f4ec;
   --dark:     #111111;
-  --gold:     #c8a96e;
-  --gold2:    #e0c48a;
-  --text:     #1a1a1a;
-  --muted:    #7a7060;
-  --border:   #c8b890;
-  --ok:       #2d7a2d;
-  --ok-bg:    #eaf6ea;
-  --fail:     #c0392b;
-  --fail-bg:  #fce8e8;
-  --info-bg:  #fff8e8;
+  /* ONIS accent: warm near-black ink */
+  --ink:      #1c1612;
+  --text:     #2a2218;
+  --muted:    #7a6e5a;
+  --border:   #c8b898;
+  /* Validation states */
+  --ok:       #2d6a2d;
+  --ok-bg:    #edf6ed;
+  --fail:     #b83030;
+  --fail-bg:  #faeaea;
+  --info-bg:  #f5f0e4;
+  /* Rainbow accent (brand stripe) */
+  --r1:#e8c840; --r2:#e06020; --r3:#c82828; --r4:#c02868; --r5:#7820c0; --r6:#2050d0; --r7:#20a850; --r8:#40c8b8;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #1e1e1e; --bg2: #2a2a2a; --surface: #262626; --dark: #111111;
-    --gold: #c8a96e; --gold2: #e0c48a; --text: #e8e8e8; --muted: #999999;
-    --border: #444444; --ok: #4aaa4a; --ok-bg: #0a200a; --fail: #e05040;
-    --fail-bg: #200a0a; --info-bg: #252020; color-scheme: dark;
+    --kraft:#1e1a14; --kraft2:#252018; --kraft3:#2e2820; --surface:#1a1710;
+    --dark:#111111; --ink:#111111;
+    --text:#e8dfc8; --muted:#8a7e68; --border:#483e2e;
+    --ok:#4aaa4a; --ok-bg:#0a1a0a; --fail:#e05040; --fail-bg:#1a0a0a;
+    --info-bg:#201c12; color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #1e1e1e; --bg2: #2a2a2a; --surface: #262626; --dark: #111111;
-  --gold: #c8a96e; --gold2: #e0c48a; --text: #e8e8e8; --muted: #999999;
-  --border: #444444; --ok: #4aaa4a; --ok-bg: #0a200a; --fail: #e05040;
-  --fail-bg: #200a0a; --info-bg: #252020; color-scheme: dark;
+  --kraft:#1e1a14; --kraft2:#252018; --kraft3:#2e2820; --surface:#1a1710;
+  --dark:#111111; --ink:#111111;
+  --text:#e8dfc8; --muted:#8a7e68; --border:#483e2e;
+  --ok:#4aaa4a; --ok-bg:#0a1a0a; --fail:#e05040; --fail-bg:#1a0a0a;
+  --info-bg:#201c12; color-scheme: dark;
 }
 
+/* ── RESET ─────────────────────────────────────── */
 * { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── KRAFT PAPER TEXTURE (CSS-only) ────────────── */
 body {
-  font-family: 'Inter', system-ui, sans-serif;
-  background: var(--bg); color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--kraft);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
+  background-size: 400px 400px;
+  color: var(--text);
   min-height: 100vh;
 }
 
+/* ── HEADER ─────────────────────────────────────── */
 header {
   background: var(--dark);
-  padding: 20px 32px;
-  display: flex; align-items: center; gap: 16px;
+  position: relative;
+  overflow: hidden;
 }
-.logo-title {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.5rem; font-weight: 700;
-  color: #ffffff; letter-spacing: 4px; text-transform: uppercase;
+/* Rainbow stripe — brand signature */
+.rainbow-stripe {
+  height: 4px;
+  background: linear-gradient(to right,
+    var(--r1) 0%, var(--r1) 12.5%,
+    var(--r2) 12.5%, var(--r2) 25%,
+    var(--r3) 25%, var(--r3) 37.5%,
+    var(--r4) 37.5%, var(--r4) 50%,
+    var(--r5) 50%, var(--r5) 62.5%,
+    var(--r6) 62.5%, var(--r6) 75%,
+    var(--r7) 75%, var(--r7) 87.5%,
+    var(--r8) 87.5%, var(--r8) 100%);
 }
-.logo-sub { font-size: 0.65rem; color: #aaaaaa; letter-spacing: 2.5px; text-transform: uppercase; margin-top: 2px; }
-.logo-divider { width: 1px; height: 36px; background: #ffffff; opacity: 0.2; margin: 0 4px; }
-.header-desc { color: #ffffff55; font-size: 0.8rem; }
+.header-inner {
+  padding: 22px 36px 20px;
+  display: flex; align-items: center; gap: 20px;
+}
 
+/* ONIS logotype — rendered in CSS matching brand */
+.onis-logo {
+  position: relative;
+  display: inline-flex; align-items: baseline;
+  gap: 0;
+}
+.onis-wordmark {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 2.2rem;
+  font-weight: 400;
+  color: #ffffff;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-transform: lowercase;
+  /* Diamond on the i — using the dot as diamond via unicode */
+  font-feature-settings: "kern" 1;
+}
+/* Diagonal slash across the logo */
+.onis-slash {
+  position: absolute;
+  /* from bottom-left to top-right, extending slightly beyond the text */
+  left: 50%; top: -4px;
+  width: 1.5px; height: calc(100% + 10px);
+  background: #ffffff;
+  transform: rotate(-20deg) translateX(-50%);
+  transform-origin: center center;
+  opacity: 0.9;
+}
+.header-stack { display: flex; flex-direction: column; justify-content: center; }
+.app-name {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+.app-sub {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.58rem;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+}
+.header-rule {
+  width: 1px; height: 40px;
+  background: rgba(255,255,255,0.15);
+  margin: 0 4px;
+}
+
+/* ── NAV TABS ───────────────────────────────────── */
 .tabs {
   background: var(--dark);
-  padding: 0 32px;
+  padding: 0 36px;
   display: flex;
-  border-bottom: 2px solid var(--gold);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 .tab {
-  padding: 12px 22px; color: #80603a;
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.78rem; font-weight: 600;
-  letter-spacing: 1.5px; text-transform: uppercase;
-  cursor: pointer; border-bottom: 3px solid transparent;
-  margin-bottom: -2px; transition: color 0.15s;
+  padding: 11px 20px;
+  color: rgba(255,255,255,0.35);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.15s, border-color 0.15s;
 }
-.tab:hover { color: var(--gold2); }
-.tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+.tab:hover { color: rgba(255,255,255,0.7); }
+.tab.active {
+  color: #ffffff;
+  border-bottom-color: #ffffff;
+}
 
-main { max-width: 820px; margin: 0 auto; padding: 32px 24px; }
+/* ── MAIN CONTENT ───────────────────────────────── */
+main { max-width: 840px; margin: 0 auto; padding: 36px 28px; }
 
+/* Section heading */
 .section-label {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.68rem; font-weight: 700;
-  letter-spacing: 2.5px; text-transform: uppercase;
-  color: var(--gold); margin-bottom: 18px;
-  padding-bottom: 8px; border-bottom: 1px solid var(--border);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.62rem; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
 }
 
+/* Upload zones */
 .upload-row { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
 .upload-row.single .upload-box { flex: 1 1 100%; }
 .upload-box {
-  flex: 1 1 240px; background: var(--bg2);
-  border: 2px dashed var(--border); border-radius: 10px;
-  padding: 28px 20px; text-align: center; cursor: pointer;
-  transition: border-color 0.15s, background 0.15s;
+  flex: 1 1 240px;
+  background: rgba(255,255,255,0.45);
+  border: 1.5px dashed var(--border);
+  border-radius: 8px;
+  padding: 30px 20px; text-align: center; cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+  backdrop-filter: blur(2px);
 }
-.upload-box:hover, .upload-box.drag-over { border-color: var(--gold); background: var(--surface); }
-.upload-box.has-file { border-color: var(--ok); border-style: solid; background: var(--ok-bg); }
-.upload-icon { font-size: 1.8rem; margin-bottom: 8px; }
+.upload-box:hover, .upload-box.drag-over {
+  border-color: var(--ink);
+  background: rgba(255,255,255,0.65);
+  box-shadow: 0 4px 20px rgba(28,22,18,0.1);
+}
+.upload-box.has-file {
+  border-color: var(--ok); border-style: solid;
+  background: var(--ok-bg);
+}
+.upload-icon { font-size: 1.6rem; margin-bottom: 10px; opacity: 0.6; }
 .upload-label {
-  font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 700;
-  letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 4px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.65rem; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--ink); margin-bottom: 5px;
 }
 .upload-hint { font-size: 0.72rem; color: var(--muted); }
-.upload-filename { font-size: 0.75rem; color: var(--ok); font-weight: 600; margin-top: 6px; word-break: break-all; }
+.upload-filename { font-size: 0.74rem; color: var(--ok); font-weight: 700; margin-top: 6px; word-break: break-all; }
 input[type=file] { display: none; }
 
+/* Embedded data badge */
 .embedded-badge {
-  display: flex; align-items: center; gap: 12px;
-  background: var(--ok-bg); border: 1px solid var(--ok);
-  border-radius: 10px; padding: 14px 18px; margin-bottom: 24px;
+  display: flex; align-items: center; gap: 14px;
+  background: rgba(255,255,255,0.5);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--ok);
+  border-radius: 8px; padding: 14px 18px; margin-bottom: 24px;
+  backdrop-filter: blur(2px);
 }
-.eb-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: var(--ok); font-size: 0.82rem; }
-.eb-sub { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
+.eb-title {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 700; color: var(--ok); font-size: 0.8rem;
+  text-transform: uppercase; letter-spacing: 1px;
+}
+.eb-sub { font-size: 0.72rem; color: var(--muted); margin-top: 3px; }
 
+/* CTA Button */
 .btn {
-  background: var(--gold); color: var(--dark); border: none;
-  border-radius: 8px; padding: 13px 28px;
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.82rem; font-weight: 700;
-  letter-spacing: 1.5px; text-transform: uppercase;
-  cursor: pointer; transition: background 0.15s;
+  background: var(--dark); color: #ffffff; border: none;
+  border-radius: 4px; padding: 14px 32px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  cursor: pointer; transition: background 0.15s, box-shadow 0.15s;
 }
-.btn:hover { background: var(--gold2); }
+.btn:hover {
+  background: #2a2218;
+  box-shadow: 0 4px 20px rgba(28,22,18,0.25);
+}
 
+/* Info box */
 .info-box {
-  background: var(--info-bg); border-left: 3px solid var(--gold);
-  padding: 12px 16px; border-radius: 0 8px 8px 0;
-  margin-bottom: 22px; font-size: 0.8rem; color: var(--text); line-height: 1.5;
+  background: rgba(255,255,255,0.4);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border);
+  padding: 12px 16px; border-radius: 0 6px 6px 0;
+  margin-bottom: 22px; font-size: 0.8rem; color: var(--text); line-height: 1.6;
+  backdrop-filter: blur(2px);
 }
 
-#results { margin-top: 28px; }
+/* Results */
+#results { margin-top: 32px; }
 .result-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
 .pp-badge {
-  background: var(--dark); color: var(--gold);
-  font-family: 'Space Grotesk', sans-serif; font-weight: 700;
-  font-size: 0.85rem; padding: 6px 14px; border-radius: 6px; letter-spacing: 1.5px;
+  background: var(--dark); color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif; font-weight: 700;
+  font-size: 0.72rem; padding: 6px 14px; border-radius: 3px;
+  letter-spacing: 2px; text-transform: uppercase;
 }
 .verdict {
-  font-family: 'Space Grotesk', sans-serif; font-size: 0.95rem; font-weight: 800;
-  letter-spacing: 2px; padding: 7px 18px; border-radius: 6px;
+  font-family: Arial, Helvetica, sans-serif; font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  padding: 7px 18px; border-radius: 3px;
 }
 .verdict.approved { background: var(--ok-bg); color: var(--ok); border: 1.5px solid var(--ok); }
 .verdict.rejected { background: var(--fail-bg); color: var(--fail); border: 1.5px solid var(--fail); }
 
-.result-wrap { overflow-x: auto; border-radius: 10px; box-shadow: 0 2px 14px rgba(44,31,14,0.12); }
-table { width: 100%; border-collapse: collapse; background: var(--surface); min-width: 500px; }
-thead th {
-  background: var(--dark); color: var(--gold);
-  font-family: 'Space Grotesk', sans-serif; font-size: 0.68rem;
-  letter-spacing: 1.5px; text-transform: uppercase;
-  padding: 11px 14px; text-align: left;
+/* Results table */
+.result-wrap {
+  overflow-x: auto; border-radius: 8px;
+  box-shadow: 0 2px 24px rgba(28,22,18,0.1);
+  border: 1px solid var(--border);
 }
-td { padding: 10px 14px; font-size: 0.82rem; border-bottom: 1px solid var(--bg2); font-variant-numeric: tabular-nums; }
+table { width: 100%; border-collapse: collapse; background: rgba(255,255,255,0.7); min-width: 500px; }
+thead th {
+  background: var(--dark); color: rgba(255,255,255,0.75);
+  font-family: Arial, Helvetica, sans-serif; font-size: 0.62rem;
+  letter-spacing: 2px; text-transform: uppercase;
+  padding: 12px 16px; text-align: left; font-weight: 700;
+}
+td { padding: 10px 16px; font-size: 0.82rem; border-bottom: 1px solid var(--kraft2); font-variant-numeric: tabular-nums; }
 tr:last-child td { border-bottom: none; }
 .section-row td {
-  background: var(--bg2);
-  font-family: 'Space Grotesk', sans-serif; font-weight: 700;
-  font-size: 0.68rem; letter-spacing: 2px; text-transform: uppercase;
-  color: var(--muted); padding: 7px 14px;
+  background: var(--kraft2);
+  font-family: Arial, Helvetica, sans-serif; font-weight: 700;
+  font-size: 0.6rem; letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--muted); padding: 7px 16px;
 }
-.st-ok { color: var(--ok); }
-.st-fail { color: var(--fail); }
+.st-ok { color: var(--ok); font-weight: 700; }
+.st-fail { color: var(--fail); font-weight: 700; }
 .val-found { color: var(--ok); }
 .val-missing { color: var(--fail); font-style: italic; }
 .val-ref { color: var(--muted); }
 
+/* Error / processing */
 .error-box {
   background: var(--fail-bg); border-left: 3px solid var(--fail);
-  padding: 12px 16px; border-radius: 0 8px 8px 0;
+  padding: 12px 16px; border-radius: 0 6px 6px 0;
   margin-bottom: 12px; font-size: 0.82rem; color: var(--fail); line-height: 1.5;
 }
 .processing { padding: 32px; text-align: center; color: var(--muted); font-size: 0.85rem; }
@@ -176,13 +301,24 @@ tr:last-child td { border-bottom: none; }
 </head>
 <body>
 
+<!-- Rainbow stripe top -->
+<div class="rainbow-stripe"></div>
+
 <header>
-  <div>
-    <div class="logo-title">ArtFlow</div>
-    <div class="logo-sub">ONIS Packaging Validator</div>
+  <div class="header-inner">
+    <!-- ONIS CSS logo -->
+    <div class="onis-logo">
+      <span class="onis-wordmark">onis</span>
+      <span class="onis-slash"></span>
+    </div>
+
+    <div class="header-rule"></div>
+
+    <div class="header-stack">
+      <div class="app-name">ArtFlow</div>
+      <div class="app-sub">Packaging Validator</div>
+    </div>
   </div>
-  <div class="logo-divider"></div>
-  <div class="header-desc">Automated packaging artwork validation</div>
 </header>
 
 <div class="tabs">
