@@ -9,10 +9,10 @@
 <style>
 /* ── ONIS BRAND TOKENS ─────────────────────────── */
 :root {
-  /* Kraft paper palette */
-  --kraft:    #f0e8d8;
-  --kraft2:   #e8dcc8;
-  --kraft3:   #ddd0ba;
+  /* Kraft paper palette — bege claro como brand guide */
+  --kraft:    #f2ecd8;
+  --kraft2:   #ece4cc;
+  --kraft3:   #e4d8ba;
   --surface:  #f8f4ec;
   --dark:     #111111;
   /* ONIS accent: warm near-black ink */
@@ -82,7 +82,7 @@ header {
 }
 .header-inner {
   padding: 22px 36px 20px;
-  display: flex; align-items: center; gap: 20px;
+  display: flex; align-items: center; justify-content: center; gap: 20px;
 }
 
 /* ONIS logotype — rendered in CSS matching brand */
@@ -118,7 +118,7 @@ header {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 0.6rem;
   font-weight: 700;
-  color: rgba(255,255,255,0.45);
+  color: #ffffff;
   letter-spacing: 4px;
   text-transform: uppercase;
   margin-bottom: 2px;
@@ -126,7 +126,7 @@ header {
 .app-sub {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 0.58rem;
-  color: rgba(255,255,255,0.3);
+  color: #ffffff;
   letter-spacing: 2.5px;
   text-transform: uppercase;
 }
@@ -141,6 +141,7 @@ header {
   background: var(--dark);
   padding: 0 36px;
   display: flex;
+  justify-content: center;
   border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 .tab {
