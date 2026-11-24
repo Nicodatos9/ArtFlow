@@ -28,37 +28,23 @@
   --info-bg:  #f5f0e4;
   /* Rainbow accent (brand stripe) */
   --r1:#e8c840; --r2:#e06020; --r3:#c82828; --r4:#c02868; --r5:#7820c0; --r6:#2050d0; --r7:#20a850; --r8:#40c8b8;
-  color-scheme: light;
+  color-scheme: light only;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --kraft:#1e1a14; --kraft2:#252018; --kraft3:#2e2820; --surface:#1a1710;
-    --dark:#111111; --ink:#111111;
-    --text:#e8dfc8; --muted:#8a7e68; --border:#483e2e;
-    --ok:#4aaa4a; --ok-bg:#0a1a0a; --fail:#e05040; --fail-bg:#1a0a0a;
-    --info-bg:#201c12; color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --kraft:#1e1a14; --kraft2:#252018; --kraft3:#2e2820; --surface:#1a1710;
-  --dark:#111111; --ink:#111111;
-  --text:#e8dfc8; --muted:#8a7e68; --border:#483e2e;
-  --ok:#4aaa4a; --ok-bg:#0a1a0a; --fail:#e05040; --fail-bg:#1a0a0a;
-  --info-bg:#201c12; color-scheme: dark;
-}
+/* Design sempre light — kraft paper não inverte */
 
 /* ── RESET ─────────────────────────────────────── */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ── KRAFT PAPER TEXTURE (CSS-only) ────────────── */
+/* ── KRAFT PAPER — sempre light, nunca inverte ── */
 body {
   font-family: Arial, Helvetica, sans-serif;
-  background-color: var(--kraft);
+  background-color: #f2ecd8;
   background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
   background-size: 400px 400px;
-  color: var(--text);
+  color: #1c1612;
   min-height: 100vh;
+  color-scheme: light;
 }
 
 /* ── HEADER ─────────────────────────────────────── */
@@ -179,16 +165,15 @@ main { max-width: 840px; margin: 0 auto; padding: 36px 28px; }
 .upload-row.single .upload-box { flex: 1 1 100%; }
 .upload-box {
   flex: 1 1 240px;
-  background: rgba(255,255,255,0.45);
-  border: 1.5px dashed var(--border);
+  background: #faf7ef;
+  border: 1.5px dashed #b8a888;
   border-radius: 8px;
   padding: 30px 20px; text-align: center; cursor: pointer;
   transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
-  backdrop-filter: blur(2px);
 }
 .upload-box:hover, .upload-box.drag-over {
-  border-color: var(--ink);
-  background: rgba(255,255,255,0.65);
+  border-color: #1c1612;
+  background: #ffffff;
   box-shadow: 0 4px 20px rgba(28,22,18,0.1);
 }
 .upload-box.has-file {
@@ -209,11 +194,10 @@ input[type=file] { display: none; }
 /* Embedded data badge */
 .embedded-badge {
   display: flex; align-items: center; gap: 14px;
-  background: rgba(255,255,255,0.5);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--ok);
+  background: #edf6ed;
+  border: 1px solid #b8d8b8;
+  border-left: 3px solid #2d6a2d;
   border-radius: 8px; padding: 14px 18px; margin-bottom: 24px;
-  backdrop-filter: blur(2px);
 }
 .eb-title {
   font-family: Arial, Helvetica, sans-serif;
@@ -238,12 +222,11 @@ input[type=file] { display: none; }
 
 /* Info box */
 .info-box {
-  background: rgba(255,255,255,0.4);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--border);
+  background: #faf7ef;
+  border: 1px solid #c8b898;
+  border-left: 3px solid #9a8868;
   padding: 12px 16px; border-radius: 0 6px 6px 0;
-  margin-bottom: 22px; font-size: 0.8rem; color: var(--text); line-height: 1.6;
-  backdrop-filter: blur(2px);
+  margin-bottom: 22px; font-size: 0.8rem; color: #2a2218; line-height: 1.6;
 }
 
 /* Results */
@@ -269,7 +252,7 @@ input[type=file] { display: none; }
   box-shadow: 0 2px 24px rgba(28,22,18,0.1);
   border: 1px solid var(--border);
 }
-table { width: 100%; border-collapse: collapse; background: rgba(255,255,255,0.7); min-width: 500px; }
+table { width: 100%; border-collapse: collapse; background: #ffffff; min-width: 500px; }
 thead th {
   background: var(--dark); color: rgba(255,255,255,0.75);
   font-family: Arial, Helvetica, sans-serif; font-size: 0.62rem;
