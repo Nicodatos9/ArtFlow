@@ -4,8 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ArtFlow — ONIS Packaging Validator</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap">
 <style>
 /* ── ONIS BRAND TOKENS ─────────────────────────── */
 :root {
@@ -71,33 +69,11 @@ header {
   display: flex; align-items: center; justify-content: center; gap: 24px;
 }
 
-/* ONIS logotype — rendered in CSS matching brand */
-.onis-logo {
-  position: relative;
-  display: inline-flex; align-items: baseline;
-  gap: 0;
-}
-.onis-wordmark {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 3rem;
-  font-weight: 400;
-  color: #ffffff;
-  letter-spacing: 0.04em;
-  line-height: 1;
-  text-transform: lowercase;
-  /* Diamond on the i — using the dot as diamond via unicode */
-  font-feature-settings: "kern" 1;
-}
-/* Diagonal slash across the logo */
-.onis-slash {
-  position: absolute;
-  /* from bottom-left to top-right, extending slightly beyond the text */
-  left: 50%; top: -4px;
-  width: 1.5px; height: calc(100% + 10px);
-  background: #ffffff;
-  transform: rotate(-20deg) translateX(-50%);
-  transform-origin: center center;
-  opacity: 0.9;
+/* ONIS logo real */
+.onis-logo img {
+  height: 52px;
+  width: auto;
+  display: block;
 }
 .header-stack { display: flex; flex-direction: column; justify-content: center; }
 .app-name {
@@ -290,10 +266,9 @@ tr:last-child td { border-bottom: none; }
 
 <header>
   <div class="header-inner">
-    <!-- ONIS CSS logo -->
+    <!-- ONIS logo real -->
     <div class="onis-logo">
-      <span class="onis-wordmark">onis</span>
-      <span class="onis-slash"></span>
+      <img src="onis_logo_white.png" alt="ONIS">
     </div>
 
     <div class="header-rule"></div>
